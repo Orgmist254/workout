@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .workout-widget {
+      text-align: center;
+    }
+
+    .progress-bar {
+      width: 200px;
+      height: 20px;
+      border: 1px solid #ccc;
+      position: relative;
+      background-color: #56b4e9; /* Blue color for the progress bar */
+    }
+
+    .progress {
+      width: 0;
+      height: 100%;
+      background-color: #009966; /* Green color for the progress */
+      position: absolute;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #56b4e9; /* Blue color for the button */
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    #fireworks {
+      display: none;
+      position: absolute;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  </style>
+</head>
+<body>
+  <div class="workout-widget">
+    <h1>Workout Progress</h1>
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
+    <button id="dues-paid-button" onclick="increaseProgress()">Dues Paid</button>
+    <div id="fireworks">
+      <img src="https://cdn.rawgit.com/ky0ncheng/firework/gh-pages/firework/firework-1.gif" alt="Fireworks" width="200">
+    </div>
+  </div>
+  <script>
+    let progressValue = 0;
+    
+    function increaseProgress() {
+      if (progressValue < 3) {
+        progressValue++;
+        document.getElementById('progress').style.width = `${progressValue * 33.33}%`;
+
+        if (progressValue === 3) {
+          // Show fireworks when progress is complete
+          document.getElementById('fireworks').style.display = 'block';
+        }
+      }
+    }
+  </script>
+</body>
+</html>
