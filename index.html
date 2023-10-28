@@ -38,22 +38,7 @@
       position: absolute;
       bottom: 0;
       border-radius: 10px; /* Rounded edges */
-    }
-
-    .line {
-      position: absolute;
-      width: 100%;
-      height: 2px; /* Thickness of the line */
-      background-color: black; /* Black line color */
-      top: 33.33%; /* Position of the line for 1/3 progress */
-    }
-
-    .line-2-3 {
-      position: absolute;
-      width: 100%;
-      height: 2px; /* Thickness of the line */
-      background-color: black; /* Black line color */
-      top: 66.66%; /* Position of the line for 2/3 progress */
+      transition: height 0.5s; /* Smooth animation for reset */
     }
 
     button {
@@ -68,23 +53,19 @@
 
     .label-x {
       padding: 10px 0;
-      font-size: 14px;
+      font-size: 12px; /* Smaller font for title */
     }
   </style>
 </head>
 <body>
   <div class="workout-widget">
-    <h1>Workout Progress</h1>
+    <h1 class="label-x">Workout Progress</h1>
     <div class="progress-container">
-      <div class="line"></div>
-      <div class="line-2-3"></div>
       <div class="progress-bar">
         <div class="progress" id="progress"></div>
       </div>
     </div>
-    <div class="label-x">Workout Progress</div>
     <button id="dues-paid-button" onclick="increaseProgress()">Dues Paid</button>
-    <div>Include GIF here</div>
   </div>
   <script>
     let progressValue = 0;
@@ -96,10 +77,21 @@
 
         if (progressValue === 3) {
           // Show fireworks when progress is complete
-          document.querySelector('.workout-widget div').textContent = ''; // Clear the "Include GIF here" text
+          document.getElementById('progress').style.transition = 'none'; // Disable transition
+          document.querySelector('.workout-widget button').disabled = true; // Disable the button
+          document.querySelector('.workout-widget h1').textContent = ''; // Clear the title
           document.querySelector('.workout-widget').insertAdjacentHTML('beforeend', '<img src="https://cdn.rawgit.com/ky0ncheng/firework/gh-pages/firework/firework-1.gif" alt="Fireworks" width="100">');
+          setTimeout(resetProgress, 5000); // Reset after 5 seconds
         }
       }
+    }
+
+    function resetProgress() {
+      progressValue = 0;
+      document.getElementById('progress').style.height = '0';
+      document.getElementById('progress').style.transition = 'height 0.5s'; // Re-enable transition
+      document.querySelector('.workout-widget button').disabled = false; // Re-enable the button
+      document.querySelector('.workout-widget h1').textContent = 'Workout Progress'; // Restore the title
     }
   </script>
 </body>
