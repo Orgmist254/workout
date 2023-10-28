@@ -8,6 +8,7 @@
       align-items: center;
       height: 100vh;
       margin: 0;
+      background-color: #f5f5f5; /* Background color */
     }
 
     .workout-widget {
@@ -15,18 +16,28 @@
     }
 
     .progress-bar {
-      width: 200px;
-      height: 20px;
+      width: 20px;
+      height: 300px; /* Vertical progress bar */
       border: 1px solid #ccc;
-      position: relative;
       background-color: #56b4e9; /* Blue color for the progress bar */
+      position: relative;
+      border-radius: 10px; /* Rounded edges */
     }
 
     .progress {
-      width: 0;
-      height: 100%;
+      width: 100%;
+      height: 0;
       background-color: #009966; /* Green color for the progress */
       position: absolute;
+      bottom: 0;
+      border-radius: 10px; /* Rounded edges */
+    }
+
+    .label-y {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      font-size: 14px;
     }
 
     button {
@@ -36,12 +47,18 @@
       color: white;
       border: none;
       cursor: pointer;
+      border-radius: 10px; /* Rounded edges */
+    }
+
+    .label-x {
+      padding: 10px 0;
+      font-size: 14px;
     }
 
     #fireworks {
       display: none;
       position: absolute;
-      top: -200px;
+      top: 20px;
       left: 50%;
       transform: translateX(-50%);
     }
@@ -50,12 +67,18 @@
 <body>
   <div class="workout-widget">
     <h1>Workout Progress</h1>
+    <div class="label-y">
+      <div>3</div>
+      <div>2</div>
+      <div>1</div>
+    </div>
     <div class="progress-bar">
       <div class="progress" id="progress"></div>
     </div>
+    <div class="label-x">Workout Progress</div>
     <button id="dues-paid-button" onclick="increaseProgress()">Dues Paid</button>
     <div id="fireworks">
-      <img src="https://cdn.rawgit.com/ky0ncheng/firework/gh-pages/firework/firework-1.gif" alt="Fireworks" width="200">
+      <img src="https://cdn.rawgit.com/ky0ncheng/firework/gh-pages/firework/firework-1.gif" alt="Fireworks" width="100">
     </div>
   </div>
   <script>
@@ -64,7 +87,7 @@
     function increaseProgress() {
       if (progressValue < 3) {
         progressValue++;
-        document.getElementById('progress').style.width = `${progressValue * 33.33}%`;
+        document.getElementById('progress').style.height = `${progressValue * 33.33}%`;
 
         if (progressValue === 3) {
           // Show fireworks when progress is complete
