@@ -24,8 +24,8 @@
             padding: 10px;
             font-size: 20px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column; /* Place items in a column layout */
+            align-items: center; /* Center align items horizontally */
         }
 
         .nav-arrows {
@@ -72,14 +72,11 @@
 <body>
     <div class="calendar">
         <div class="header">
+            <span class="title" id="title">Workout Progress</span>
+            <span class="month-year" id="month-year">Month Year</span>
             <div class="nav-arrows">
                 <span class="prev" id="prev" onclick="previousMonth()">&#9664;</span>
                 <span class="next" id="next" onclick="nextMonth()">&#9654;</span>
-            </div>
-            <div>
-                <span class="title" id="title">Workout Progress</span>
-                <br>
-                <span class="month-year" id="month-year">Month Year</span>
             </div>
         </div>
         <div class="days">
