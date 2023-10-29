@@ -14,6 +14,7 @@
             border: 2px solid #ddd;
             border-radius: 15px;
             margin: 20px auto;
+            background-color: #f5f5f5; /* Background color for the widget */
         }
 
         .header {
@@ -60,13 +61,6 @@
         .highlighted {
             background-color: #e6f7ff; /* Highlight color */
         }
-
-        .highlighted-number {
-            background-color: #e6f7ff; /* Highlight color for the numbers */
-            border-radius: 50%;
-            padding: 8px;
-            display: inline-block;
-        }
     </style>
 </head>
 <body>
@@ -97,6 +91,8 @@
             // Add more workout dates here
         };
 
+        const highlightedDates = new Set(storedHighlightedDates);
+
         const currentDate = new Date();
         let currentMonth = currentDate.getMonth();
         let currentYear = currentDate.getFullYear();
@@ -122,13 +118,8 @@
             for (let day = 1; day <= daysInMonth; day++) {
                 const dateElement = document.createElement("div");
                 dateElement.classList.add("date");
+                dateElement.textContent = day;
                 dateElement.dataset.date = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-                dateElement.addEventListener("click", toggleHighlight);
-
-                const numberElement = document.createElement("div");
-                numberElement.classList.add("highlighted-number");
-                numberElement.textContent = day;
-                dateElement.appendChild(numberElement);
 
                 if (workouts[dateElement.dataset.date]) {
                     const marker = document.createElement("div");
@@ -137,10 +128,11 @@
                     dateElement.appendChild(marker);
                 }
 
-                if (storedHighlightedDates.includes(dateElement.dataset.date)) {
+                if (highlightedDates.has(dateElement.dataset.date)) {
                     dateElement.classList.add("highlighted");
                 }
 
+                dateElement.addEventListener("click", toggleHighlight);
                 calendarDates.appendChild(dateElement);
             }
         }
@@ -149,16 +141,16 @@
             const dateElement = event.currentTarget;
             const date = dateElement.dataset.date;
 
-            if (dateElement.classList.contains("highlighted")) {
+            if (highlightedDates.has(date)) {
+                highlightedDates.delete(date);
                 dateElement.classList.remove("highlighted");
-                storedHighlightedDates.splice(storedHighlightedDates.indexOf(date), 1);
             } else {
+                highlightedDates.add(date);
                 dateElement.classList.add("highlighted");
-                storedHighlightedDates.push(date);
             }
 
             // Store highlighted dates in local storage
-            localStorage.setItem('highlightedDates', JSON.stringify(storedHighlightedDates));
+            localStorage.setItem('highlightedDates', JSON.stringify(Array.from(highlightedDates)));
         }
 
         function previousMonth() {
