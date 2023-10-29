@@ -22,21 +22,27 @@
             border-top-right-radius: 15px;
             padding: 10px;
             font-size: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .title {
             font-size: 24px;
             font-weight: bold;
-            margin-bottom: 10px;
         }
 
-        .month-year {
-            font-size: 16px;
+        .arrows {
+            font-size: 20px;
+            display: flex;
         }
 
         .prev, .next {
             cursor: pointer;
-            font-size: 20px;
+        }
+
+        .month-year {
+            font-size: 16px;
         }
 
         .days {
@@ -71,10 +77,11 @@
 <body>
     <div class="calendar">
         <div class="header">
-            <span class="prev" id="prev" onclick="previousMonth()">&#9664;</span>
             <div class="title">Workout Progress</div>
-            <div class="month-year" id="month-year">October 2023</div>
-            <span class="next" id="next" onclick="nextMonth()">&#9654;</span>
+            <div class="arrows">
+                <span class="prev" id="prev" onclick="previousMonth()">&#9664;</span>
+                <span class="next" id="next" onclick="nextMonth()">&#9654;</span>
+            </div>
         </div>
         <div class="days">
             <div class="day">Sun</div>
@@ -82,7 +89,7 @@
             <div class="day">Tue</div>
             <div class="day">Wed</div>
             <div class="day">Thu</div>
-            <div class "day">Fri</div>
+            <div class="day">Fri</div>
             <div class="day">Sat</div>
         </div>
         <div class="dates" id="calendar-dates">
