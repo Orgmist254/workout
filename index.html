@@ -1,186 +1,182 @@
+# Notes
+
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: transparent;
-            color: #333; /* Text color */
-            text-align: center;
-        }
+<style>
+body {
+font-family: Arial, sans-serif;
+background-color: transparent;
+color: #333; /* Text color */
+text-align: center;
+}
 
-        .calendar {
-            width: 300px;
-            border: 2px solid #ddd;
-            border-radius: 15px;
-            margin: 20px auto;
-        }
+```
+    .calendar {
+        width: 300px;
+        border: 2px solid #ddd;
+        border-radius: 15px;
+        margin: 20px auto;
+    }
 
-        .header {
-            background-color: #f5f5f5;
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
-            padding: 10px;
-            font-size: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .header {
+        background-color: #f5f5f5;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        padding: 10px;
+        font-size: 20px;
+    }
 
-        .title {
-            font-size: 24px;
-            font-weight: bold;
-        }
+    .prev, .next {
+        cursor: pointer;
+        font-size: 20px;
+    }
 
-        .arrows {
-            font-size: 20px;
-            display: flex;
-        }
+    .month-year {
+        font-size: 20px;
+    }
 
-        .prev, .next {
-            cursor: pointer;
-        }
+    .days {
+        display: flex;
+        justify-content: space-around;
+        background-color: #f5f5f5;
+        padding: 5px;
+    }
 
-        .month-year {
-            font-size: 16px;
-        }
+    .day {
+        text-align: center;
+        padding: 5px;
+    }
 
-        .days {
-            display: flex;
-            justify-content: space-around;
-            background-color: #f5f5f5;
-            padding: 5px;
-        }
+    .dates {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        padding: 10px;
+    }
 
-        .day {
-            text-align: center;
-            padding: 5px;
-        }
+    .date {
+        text-align: center;
+        padding: 10px;
+        cursor: pointer;
+    }
 
-        .dates {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            padding: 10px;
-        }
+    .highlighted {
+        background-color: #e6f7ff; /* Highlight color */
+    }
+</style>
 
-        .date {
-            text-align: center;
-            padding: 10px;
-            cursor: pointer;
-        }
+```
 
-        .highlighted {
-            background-color: #e6f7ff; /* Highlight color */
-        }
-    </style>
 </head>
 <body>
-    <div class="calendar">
-        <div class="header">
-            <div class="title">Workout Progress</div>
-            <div class="arrows">
-                <span class="prev" id="prev" onclick="previousMonth()">&#9664;</span>
-                <span class="next" id="next" onclick="nextMonth()">&#9654;</span>
-            </div>
-        </div>
-        <div class="days">
-            <div class="day">Sun</div>
-            <div class="day">Mon</div>
-            <div class="day">Tue</div>
-            <div class="day">Wed</div>
-            <div class="day">Thu</div>
-            <div class="day">Fri</div>
-            <div class="day">Sat</div>
-        </div>
-        <div class="dates" id="calendar-dates">
-            <!-- Calendar dates will be dynamically generated here using JavaScript -->
-        </div>
-    </div>
-    <script>
-        // Replace this with your own data and logic
-        const workouts = {
-            "2023-10-01": "#ff5722",
-            // Add more workout dates here
-        };
-        
-        const highlightedDates = new Set();
+<div class="calendar">
+<div class="header">
+<span class="prev" id="prev" onclick="previousMonth()">◀</span>
+<span class="month-year" id="month-year">Workout Progress</span>
+<span class="next" id="next" onclick="nextMonth()">▶</span>
+</div>
+<div class="days">
+<div class="day">Sun</div>
+<div class="day">Mon</div>
+<div class="day">Tue</div>
+<div class="day">Wed</div>
+<div class="day">Thu</div>
+<div class="day">Fri</div>
+<div class="day">Sat</div>
+</div>
+<div class="dates" id="calendar-dates">
+<!-- Calendar dates will be dynamically generated here using JavaScript -->
+</div>
+</div>
+<script>
+// Replace this with your own data and logic
+const workouts = {
+"2023-10-01": "#ff5722",
+// Add more workout dates here
+};
 
-        const currentDate = new Date();
-        let currentMonth = currentDate.getMonth();
-        let currentYear = currentDate.getFullYear();
+```
+    const highlightedDates = new Set();
 
-        function generateCalendar() {
-            const calendarDates = document.getElementById("calendar-dates");
-            calendarDates.innerHTML = "";
+    const currentDate = new Date();
+    let currentMonth = currentDate.getMonth();
+    let currentYear = currentDate.getFullYear();
 
-            const firstDay = new Date(currentYear, currentMonth, 1);
-            const lastDay = new Date(currentYear, currentMonth + 1, 0);
-            const daysInMonth = lastDay.getDate();
-            const startingDay = firstDay.getDay();
+    function generateCalendar() {
+        const calendarDates = document.getElementById("calendar-dates");
+        calendarDates.innerHTML = "";
 
-            const monthYear = document.getElementById("month-year");
-            monthYear.textContent = new Intl.DateTimeFormat("en-US", { year: "numeric", month: "long" }).format(firstDay);
+        const firstDay = new Date(currentYear, currentMonth, 1);
+        const lastDay = new Date(currentYear, currentMonth + 1, 0);
+        const daysInMonth = lastDay.getDate();
+        const startingDay = firstDay.getDay();
 
-            for (let i = 0; i < startingDay; i++) {
-                const emptyDate = document.createElement("div");
-                emptyDate.classList.add("date");
-                calendarDates.appendChild(emptyDate);
-            }
+        const monthYear = document.getElementById("month-year");
+        monthYear.textContent = "Workout Progress";
 
-            for (let day = 1; day <= daysInMonth; day++) {
-                const dateElement = document.createElement("div");
-                dateElement.classList.add("date");
-                dateElement.textContent = day;
-                dateElement.dataset.date = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-                
-                if (workouts[dateElement.dataset.date]) {
-                    const marker = document.createElement("div");
-                    marker.classList.add("workout-marker");
-                    marker.style.backgroundColor = workouts[dateElement.dataset.date];
-                    dateElement.appendChild(marker);
-                }
-                
-                if (highlightedDates.has(dateElement.dataset.date)) {
-                    dateElement.classList.add("highlighted");
-                }
-
-                dateElement.addEventListener("click", toggleHighlight);
-                calendarDates.appendChild(dateElement);
-            }
+        for (let i = 0; i < startingDay; i++) {
+            const emptyDate = document.createElement("div");
+            emptyDate.classList.add("date");
+            calendarDates.appendChild(emptyDate);
         }
 
-        function toggleHighlight(event) {
-            const dateElement = event.currentTarget;
-            const date = dateElement.dataset.date;
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dateElement = document.createElement("div");
+            dateElement.classList.add("date");
+            dateElement.textContent = day;
+            dateElement.dataset.date = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
 
-            if (highlightedDates.has(date)) {
-                highlightedDates.delete(date);
-                dateElement.classList.remove("highlighted");
-            } else {
-                highlightedDates.add(date);
+            if (workouts[dateElement.dataset.date]) {
+                const marker = document.createElement("div");
+                marker.classList.add("workout-marker");
+                marker.style.backgroundColor = workouts[dateElement.dataset.date];
+                dateElement.appendChild(marker);
+            }
+
+            if (highlightedDates.has(dateElement.dataset.date)) {
                 dateElement.classList.add("highlighted");
             }
-        }
 
-        function previousMonth() {
-            currentMonth--;
-            if (currentMonth < 0) {
-                currentMonth = 11;
-                currentYear--;
-            }
-            generateCalendar();
+            dateElement.addEventListener("click", toggleHighlight);
+            calendarDates.appendChild(dateElement);
         }
+    }
 
-        function nextMonth() {
-            currentMonth++;
-            if (currentMonth > 11) {
-                currentMonth = 0;
-                currentYear++;
-            }
-            generateCalendar();
+    function toggleHighlight(event) {
+        const dateElement = event.currentTarget;
+        const date = dateElement.dataset.date;
+
+        if (highlightedDates.has(date)) {
+            highlightedDates.delete(date);
+            dateElement.classList.remove("highlighted");
+        } else {
+            highlightedDates.add(date);
+            dateElement.classList.add("highlighted");
         }
+    }
 
+    function previousMonth() {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
         generateCalendar();
-    </script>
+    }
+
+    function nextMonth() {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        generateCalendar();
+    }
+
+    generateCalendar();
+</script>
+
+```
+
 </body>
 </html>
