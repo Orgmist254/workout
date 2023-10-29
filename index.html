@@ -30,10 +30,12 @@
 
         .nav-arrows {
             font-size: 12px; /* Smaller font size for the arrows */
+            margin-top: 5px; /* Add margin to separate arrows from the date */
         }
 
         .title {
             font-size: 20px;
+            margin-bottom: 5px; /* Add margin below the title */
         }
 
         .month-year {
@@ -111,7 +113,7 @@
             calendarDates.innerHTML = "";
 
             const firstDay = new Date(currentYear, currentMonth, 1);
-            const lastDay = new Date(currentYear, currentMonth + 1, 0);
+            const lastDay = a new Date(currentYear, currentMonth + 1, 0);
             const daysInMonth = lastDay.getDate();
             const startingDay = firstDay.getDay();
 
