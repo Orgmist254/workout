@@ -2,15 +2,75 @@
 <html>
 <head>
     <style>
-        /* ... (CSS styles) ... */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+        }
+
+        .calendar {
+            width: 300px;
+            background-color: #444;
+            border-radius: 10px;
+            margin: 20px auto;
+        }
+
+        .header {
+            background-color: #555;
+            border-radius: 10px 10px 0 0;
+            padding: 10px;
+        }
+
+        .prev, .next {
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .month-year {
+            font-size: 20px;
+        }
+
+        .days {
+            display: flex;
+            justify-content: space-around;
+            background-color: #555;
+            padding: 5px;
+        }
+
+        .day {
+            text-align: center;
+            padding: 5px;
+        }
+
+        .dates {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            padding: 10px;
+        }
+
+        .date {
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .workout-marker {
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="calendar">
         <div class="header">
-            <span class="prev" id="prev">&#9664;</span>
+            <span class="prev" id="prev" onclick="previousMonth()">&#9664;</span>
             <span class="month-year" id="month-year">October 2023</span>
-            <span class="next" id="next">&#9654;</span>
+            <span class="next" id="next" onclick="nextMonth()">&#9654;</span>
         </div>
         <div class="days">
             <div class="day">Sun</div>
@@ -26,6 +86,7 @@
         </div>
     </div>
     <script>
+        // Replace this with your own data and logic
         const workouts = {
             "2023-10-01": "#ff5722",
             // Add more workout dates here
@@ -58,35 +119,35 @@
                 dateElement.classList.add("date");
                 dateElement.textContent = day;
                 dateElement.dataset.date = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-                
+
                 if (workouts[dateElement.dataset.date]) {
                     const marker = document.createElement("div");
                     marker.classList.add("workout-marker");
                     marker.style.backgroundColor = workouts[dateElement.dataset.date];
                     dateElement.appendChild(marker);
                 }
-                
+
                 calendarDates.appendChild(dateElement);
             }
         }
 
-        function changeMonth(diff) {
-            currentMonth += diff;
+        function previousMonth() {
+            currentMonth--;
             if (currentMonth < 0) {
                 currentMonth = 11;
                 currentYear--;
-            } else if (currentMonth > 11) {
+            }
+            generateCalendar();
+        }
+
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {
                 currentMonth = 0;
                 currentYear++;
             }
             generateCalendar();
         }
-
-        const prevButton = document.getElementById("prev");
-        prevButton.addEventListener("click", () => changeMonth(-1));
-
-        const nextButton = document.getElementById("next");
-        nextButton.addEventListener("click", () => changeMonth(1));
 
         generateCalendar();
     </script>
