@@ -60,6 +60,13 @@
         .highlighted {
             background-color: #e6f7ff; /* Highlight color */
         }
+
+        .highlighted-number {
+            background-color: #e6f7ff; /* Highlight color for the numbers */
+            border-radius: 50%;
+            padding: 8px;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -83,20 +90,19 @@
         </div>
     </div>
     <script>
-        // Replace this with your own data and logic
+        // Retrieve highlighted dates from local storage
+        const storedHighlightedDates = JSON.parse(localStorage.getItem('highlightedDates')) || [];
         const workouts = {
             "2023-10-01": "#ff5722",
             // Add more workout dates here
         };
-        
-        const highlightedDates = new Set();
 
         const currentDate = new Date();
         let currentMonth = currentDate.getMonth();
         let currentYear = currentDate.getFullYear();
+        const calendarDates = document.getElementById("calendar-dates");
 
         function generateCalendar() {
-            const calendarDates = document.getElementById("calendar-dates");
             calendarDates.innerHTML = "";
 
             const firstDay = new Date(currentYear, currentMonth, 1);
@@ -116,21 +122,25 @@
             for (let day = 1; day <= daysInMonth; day++) {
                 const dateElement = document.createElement("div");
                 dateElement.classList.add("date");
-                dateElement.textContent = day;
                 dateElement.dataset.date = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-                
+                dateElement.addEventListener("click", toggleHighlight);
+
+                const numberElement = document.createElement("div");
+                numberElement.classList.add("highlighted-number");
+                numberElement.textContent = day;
+                dateElement.appendChild(numberElement);
+
                 if (workouts[dateElement.dataset.date]) {
                     const marker = document.createElement("div");
                     marker.classList.add("workout-marker");
                     marker.style.backgroundColor = workouts[dateElement.dataset.date];
                     dateElement.appendChild(marker);
                 }
-                
-                if (highlightedDates.has(dateElement.dataset.date)) {
+
+                if (storedHighlightedDates.includes(dateElement.dataset.date)) {
                     dateElement.classList.add("highlighted");
                 }
 
-                dateElement.addEventListener("click", toggleHighlight);
                 calendarDates.appendChild(dateElement);
             }
         }
@@ -139,13 +149,16 @@
             const dateElement = event.currentTarget;
             const date = dateElement.dataset.date;
 
-            if (highlightedDates.has(date)) {
-                highlightedDates.delete(date);
+            if (dateElement.classList.contains("highlighted")) {
                 dateElement.classList.remove("highlighted");
+                storedHighlightedDates.splice(storedHighlightedDates.indexOf(date), 1);
             } else {
-                highlightedDates.add(date);
                 dateElement.classList.add("highlighted");
+                storedHighlightedDates.push(date);
             }
+
+            // Store highlighted dates in local storage
+            localStorage.setItem('highlightedDates', JSON.stringify(storedHighlightedDates));
         }
 
         function previousMonth() {
