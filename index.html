@@ -1,3 +1,6 @@
+To increase the opacity of the highlighted dates to about 80%, you can adjust the `background-color` property for the `.highlighted` class to use RGBA with an alpha value of 0.8. Here's the updated code:
+
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -67,7 +70,7 @@
         }
 
         .highlighted {
-            background-color: rgba(230, 247, 255, 0.7); /* Highlight color with higher opacity */
+            background-color: rgba(230, 247, 255, 0.8); /* Highlight color with 80% opacity */
         }
     </style>
 </head>
@@ -84,7 +87,7 @@
         <div class="days">
             <div class="day">Sun</div>
             <div class="day">Mon</div>
-            <div class "day">Tue</div>
+            <div class="day">Tue</div>
             <div class="day">Wed</div>
             <div class="day">Thu</div>
             <div class="day">Fri</div>
@@ -124,7 +127,7 @@
 
             for (let i = 0; i < startingDay; i++) {
                 const emptyDate = document.createElement("div");
-                emptyDate.classList.add("date");
+                emptyDate.classList add("date");
                 calendarDates.appendChild(emptyDate);
             }
 
@@ -172,19 +175,3 @@
                 currentMonth = 11;
                 currentYear--;
             }
-            generateCalendar();
-        }
-
-        function nextMonth() {
-            currentMonth++;
-            if (currentMonth > 11) {
-                currentMonth = 0;
-                currentYear++;
-            }
-            generateCalendar();
-        }
-
-        generateCalendar();
-    </script>
-</body>
-</html>
