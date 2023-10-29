@@ -67,7 +67,7 @@
         }
 
         .highlighted {
-            background-color: rgba(230, 247, 255, 0.8); /* Highlight color with 80% opacity */
+            background-color: rgba(0, 139, 139, 0.8); /* Highlight color with 80% opacity */
         }
     </style>
 </head>
@@ -124,7 +124,7 @@
 
             for (let i = 0; i < startingDay; i++) {
                 const emptyDate = document.createElement("div");
-                emptyDate.classList add("date");
+                emptyDate.classList.add("date");
                 calendarDates.appendChild(emptyDate);
             }
 
@@ -172,3 +172,19 @@
                 currentMonth = 11;
                 currentYear--;
             }
+            generateCalendar();
+        }
+
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            generateCalendar();
+        }
+
+        generateCalendar();
+    </script>
+</body>
+</html>
