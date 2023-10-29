@@ -4,20 +4,19 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #333;
+            background-color: #121212; /* Dark theme background color */
             color: #fff;
             text-align: center;
         }
 
         .calendar {
             width: 300px;
-            background-color: #444;
             border-radius: 10px;
             margin: 20px auto;
         }
 
         .header {
-            background-color: #555;
+            background-color: #121212; /* Dark theme background color */
             border-radius: 10px 10px 0 0;
             padding: 10px;
         }
@@ -34,7 +33,7 @@
         .days {
             display: flex;
             justify-content: space-around;
-            background-color: #555;
+            background-color: #121212; /* Dark theme background color */
             padding: 5px;
         }
 
@@ -55,13 +54,8 @@
             cursor: pointer;
         }
 
-        .workout-marker {
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            position: absolute;
-            top: 10px;
-            right: 10px;
+        .highlighted {
+            background-color: #ff5722; /* Customize this color for highlighted dates */
         }
     </style>
 </head>
@@ -91,6 +85,8 @@
             "2023-10-01": "#ff5722",
             // Add more workout dates here
         };
+        
+        const highlightedDates = new Set();
 
         const currentDate = new Date();
         let currentMonth = currentDate.getMonth();
@@ -119,15 +115,33 @@
                 dateElement.classList.add("date");
                 dateElement.textContent = day;
                 dateElement.dataset.date = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-
+                
                 if (workouts[dateElement.dataset.date]) {
                     const marker = document.createElement("div");
                     marker.classList.add("workout-marker");
                     marker.style.backgroundColor = workouts[dateElement.dataset.date];
                     dateElement.appendChild(marker);
                 }
+                
+                if (highlightedDates.has(dateElement.dataset.date)) {
+                    dateElement.classList.add("highlighted");
+                }
 
+                dateElement.addEventListener("click", toggleHighlight);
                 calendarDates.appendChild(dateElement);
+            }
+        }
+
+        function toggleHighlight(event) {
+            const dateElement = event.currentTarget;
+            const date = dateElement.dataset.date;
+
+            if (highlightedDates.has(date)) {
+                highlightedDates.delete(date);
+                dateElement.classList.remove("highlighted");
+            } else {
+                highlightedDates.add(date);
+                dateElement.classList.add("highlighted");
             }
         }
 
