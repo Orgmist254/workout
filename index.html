@@ -25,12 +25,16 @@
             font-size: 20px;
         }
 
-        .prev, .next {
-            cursor: pointer;
+        .title {
             font-size: 20px;
         }
 
         .month-year {
+            font-size: 12px; /* Smaller text for the month and year */
+        }
+
+        .prev, .next {
+            cursor: pointer;
             font-size: 20px;
         }
 
@@ -67,7 +71,11 @@
     <div class="calendar">
         <div class="header">
             <span class="prev" id="prev" onclick="previousMonth()">&#9664;</span>
-            <span class="month-year" id="month-year">Workout Progress</span>
+            <div>
+                <span class="title" id="title">Workout Progress</span>
+                <br>
+                <span class="month-year" id="month-year">Month Year</span>
+            </div>
             <span class="next" id="next" onclick="nextMonth()">&#9654;</span>
         </div>
         <div class="days">
@@ -75,7 +83,7 @@
             <div class="day">Mon</div>
             <div class="day">Tue</div>
             <div class="day">Wed</div>
-            <div class="day">Thu</div>
+            <div class "day">Thu</div>
             <div class="day">Fri</div>
             <div class="day">Sat</div>
         </div>
@@ -107,7 +115,9 @@
             const startingDay = firstDay.getDay();
 
             const monthYear = document.getElementById("month-year");
-            monthYear.textContent = "Workout Progress";
+            monthYear.textContent = new Intl.DateTimeFormat("en-US", { year: "numeric", month: "long" }).format(firstDay);
+            const title = document.getElementById("title");
+            title.textContent = "Workout Progress";
 
             for (let i = 0; i < startingDay; i++) {
                 const emptyDate = document.createElement("div");
